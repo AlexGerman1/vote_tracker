@@ -1,0 +1,51 @@
+body {
+  width: 95%;
+}
+
+h1 {
+  font-size: 52px;
+  text-align: center;
+  margin: 30px;
+}
+
+h2 {
+  font-size: 30px;
+  text-align: center;
+  margin: 30px;
+}
+
+.main {
+  width: 960px;
+}
+
+#pic1, #pic2 {
+  float: left;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+input:focus {
+  outline: none;
+}
+
+p {
+  float: left;
+  text-align: center;
+}
+
+#submit {
+  clear: left;
+  margin-left: 600px;
+  margin-top: 50px;
+}
+.winner {
+  border: 5px solid red;
+  border-radius: 50%;
+
+
+/*button {
+  padding: 0;
+  float: left;
+  width: 250px;
+  height: 250px;
+}
+*/
