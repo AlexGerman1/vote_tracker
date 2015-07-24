@@ -5,27 +5,35 @@ var photo = function (path, number) {
 }
 
 var cats = [];
-var left = undefined;
-var right = undefined;for (var i=0; i<=13; i++) {
-  cats.push(new photo("img/" + i + ".jpg", i));
-}
+var left;
+var right;
+//   for (var i=0; i<=13; i++) {
+//   cats.push(new photo("img/" + i + ".jpg", i));
+// }
 
-console.log(cats);function randomNum(min, max) {
+console.log(cats);
+function randomNum(min, max) {
   return Math.floor(Math.random() * (max-min+1) + min);
 }
 
-function display() {
-  $('#pic1').attr("src", cats[left].path);
-  $('#pic2').attr("src", cats[right].path);
+function display(lft, rht) {
+  console.log(lft);
+  $('#pic1').attr("src", cats[lft].path);
+  $('#pic2').attr("src", cats[rht].path);
+
 }
 
-newDisplay();
-  display();function newDisplay() {
-  left = randomNum(0, 13);
-  right = randomNum(0,13);
+
+  function newDisplay() {
+  var left = randomNum(0, 13);
+  var right = randomNum(0,13);
   if (left == right) {
     right = randomNum(0, 13);
+    display(left, right);
+    console.log(left);
   }
+
+
 
 console.log(left, right);
 }
@@ -38,10 +46,12 @@ $('#pic1').click(function(){
   chart.segments[0].value = cats[left].votes
   chart.segments[1].value = cats[right].votes
   chart.update();
+  storeVotes();
   console.log(cats[left].votes);
 });
 
 $('#pic2').click(function(){
+  console.dir(right);
   console.log("clicked");
   $(this).attr("class", "winner");
   $('#pic1').attr("class", "");
@@ -49,6 +59,8 @@ $('#pic2').click(function(){
   chart.segments[1].value = cats[right].votes
   chart.segments[0].value = cats[left].votes
   chart.update();
+  storeVotes();
+
   console.log(cats[right].votes);
 });
 
@@ -82,43 +94,31 @@ $('#reroll').click(function(){
             // draw pie chart
             var chart = new Chart(myChart).Pie(pieData, pieOptions);
 
+  if(!localStorage.getItem('CatVotes')) {
+  populateStorage();
+} else {
+  storeVotes();
+}
 
 
-// // Get context with jQuery - using jQuery's .get() method.
-// var ctx = $("#myChart").get(0).getContext("2d");
-// // This will get the first returned node in the jQuery collection.
+  function storeVotes(){
+    localStorage.setItem('CatVotes',JSON.stringify(cats));
 
-// // And for a doughnut chart
-// var myDoughnutChart = new Chart(ctx).Doughnut(data);;
-//  var data = [
-//    {
-//         value: 5,
-//         color:"#F7464A",
-//         highlight: "#FF5A5E",
-//         label: "Red"
-//     },
-//     {
-//         value: 5,
-//         color: "#46BFBD",
-//         highlight: "#5AD3D1",
-//         label: "Green"
-//     }
-// ]
-// myChart.onclick = function(evt){
-//     var activePoints = myDoughnutChart.getSegmentsAtEvent(evt);
-//     // => activePoints is an array of segments on the canvas that are at the same position as the click event.
-// };
+  }
+  function retrieveVotes(){
+    var retrievedVotes = localStorage.getItem('CatVotes');
+    // // if(retrievedVotes != null){
+    //   cats = JSON.parse(retrievedVotes);
+    cats = localStorage.getItem("CatVotes");
+    }
+    function start(){
+      for (var i=0; i<=13; i++) {
+  cats.push(new photo("img/" + i + ".jpg", i));
 
-// myDoughnutChart.segments.value = 10;
-// // Would update the first dataset's value of 'Green' to be 10
-// myDoughnutChart.update();
-// // Calling update now animates the circumference of the segment 'Green' from 50 to 10.
-// // and transitions other segment widths
-// // An object in the same format as the original data source
-// myDoughnutChart.addData({
-//     value: 10,
-//     color: "#B48EAD",
-//     highlight: "#C69CBE",
-//     label: "Purple"
-// });
-// // The new segment will now animate in.
+newDisplay();
+ display();
+retrieveVotes();
+console.dir(cats);
+  }
+ }
+start();
